@@ -1,23 +1,21 @@
 <?php
 
-use Src\Http\Kernel;
-use Src\Http\Request;
-use Src\Http\Router;
+declare(strict_types=1);
+
+
+use Config\App;
 
 define('BASE_PATH', dirname(__DIR__));
+const VIEWS_PATH = BASE_PATH . '/resources/views';
 
-require_once BASE_PATH . '/vendor/autoload.php';
+require BASE_PATH . '/vendor/autoload.php';
 
-$request = Request::createFromGlobals();
 
-$router = new Router();
+$config = [
+    'database' => require BASE_PATH . '/config/database.php',
+    'routes' => require BASE_PATH . '/routes/web.php',
+];
 
-$kernel = new Kernel($router);
+$app = App::getInstance($config);
 
-$response = $kernel->handle($request);
-
-$response->send();
-
-$kernel->terminate($request, $response);
-
-var_dump($request);
+$app->run();

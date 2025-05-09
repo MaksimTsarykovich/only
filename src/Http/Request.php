@@ -34,4 +34,9 @@ class Request
         return $this->server;
     }
 
+    public function input(string $key, mixed $default = null)
+    {
+        return $this->postData[$key] ?? $default;
+    }
+
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Src\Http;
+namespace Src\Routing;
 
-use Http\Request;
+use Src\Http\Request;
 
 class Router
 {
@@ -26,16 +26,14 @@ class Router
     {
         $uri = $request->getPath();
         $method = $request->getMethod();
-
         foreach ($this->routes as $route) {
             [$routeMethod, $routeUri, $controller] = $route;
 
-            if ($routeMethod !== $method && $routeUri !== $uri) {
+            if ($routeMethod !== $method || $routeUri !== $uri) {
                 continue;
             }
 
             $handler = [$controller, $routeMethod];
-
             return $handler;
         }
 

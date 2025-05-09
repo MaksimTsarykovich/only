@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Routing;
+namespace Src\Routing;
 
 class Route
 {

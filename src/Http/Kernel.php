@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Http;
 
-use Src\Helpers\Dump;
-use Src\Http\Router;
+use Src\Http\Exceptions\HttpException;
+use Src\Routing\Router;
 
 class Kernel
 {
@@ -17,21 +19,23 @@ class Kernel
     {
         try {
             [$routeHandler, $vars] = $this->router->dispatch($request);
-            Dump::dd($routeHandler);
+            [$class, $method] = $routeHandler;
 
-            $response = call_user_func_array($routeHandler, $vars);
+            $controller = new $class;
+
+            $controller->setRequest($request);
+
+            $response = $controller->$method($vars);
+
         } catch (\Exception $e) {
-            $response = $this->createExceptionResponse($e);
+           $response = $this->createExceptionResponse($e);
         }
 
         return $response;
     }
 
-    private function createExceptionResponse(\Exception $e)
+    private function createExceptionResponse(\Throwable $e)
     {
-        if (in_array($this->appEnv, ['local', 'testing'])) {
-            throw $e;
-        }
         if ($e instanceof HttpException) {
             return new Response($e->getMessage(), $e->getStatusCode());
         }
