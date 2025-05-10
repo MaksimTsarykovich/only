@@ -17,7 +17,7 @@ class Kernel
 
     public function handle(Request $request)
     {
-        try {
+//        try {
             [$routeHandler, $vars] = $this->router->dispatch($request);
             [$class, $method] = $routeHandler;
 
@@ -27,11 +27,16 @@ class Kernel
 
             $response = $controller->$method($vars);
 
-        } catch (\Exception $e) {
+        /*} catch (\Exception $e) {
            $response = $this->createExceptionResponse($e);
-        }
+        }*/
 
         return $response;
+    }
+
+    public function terminate(Request $request,Response $response):void
+    {
+        $request->getSession()?->clearFlash();
     }
 
     private function createExceptionResponse(\Throwable $e)

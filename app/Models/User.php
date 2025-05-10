@@ -28,4 +28,34 @@ class User extends AbstractModel
     {
         return new static($id, $name, $email, $phone, $password_hash);
     }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    public function getPasswordHash(): string
+    {
+        return $this->password_hash;
+    }
+
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
 }

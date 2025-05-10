@@ -7,6 +7,30 @@
                 <div class="card-body p-4">
                     <h2 class="card-title text-center mb-4">Регистрация</h2>
 
+                    <?php if (!empty($_SESSION['flash']['error'])): ?>
+
+                    <div class="alert alert-danger">
+                        <ul class="m-0">
+                            <?php foreach ($_SESSION['flash']['error'] as $error): ?>
+                            <li><?= $error ?></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+
+                    <?php endif; ?>
+                    <?php if (!empty($_SESSION['flash']['success'])): ?>
+
+                        <div class="alert alert-success">
+                            <ul class="m-0">
+                                <?php foreach ($_SESSION['flash']['success'] as $success): ?>
+                                    <li><?= $success ?></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+
+                    <?php endif; ?>
+
+
                     <form action="/register" method="post">
                         <!-- Поле Имя -->
                         <div class="mb-3">

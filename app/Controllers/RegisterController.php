@@ -5,11 +5,21 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Forms\User\RegisterForm;
+use App\Services\UserService;
+use Config\App;
 use Src\Controller\AbstractController;
+use Src\Http\RedirectResponse;
 use Src\Http\Response;
 
 class RegisterController extends AbstractController
 {
+
+    private UserService $userService;
+
+    public function __construct()
+    {
+        $this->userService = new UserService(App::getDatabase());
+    }
 
     public function form()
     {
@@ -18,7 +28,7 @@ class RegisterController extends AbstractController
 
     public function register(): Response
     {
-        $form = new RegisterForm();
+        $form = new RegisterForm($this->userService);
         $form->setFields(
             $this->request->input('email'),
             $this->request->input('phone'),
@@ -26,9 +36,18 @@ class RegisterController extends AbstractController
             $this->request->input('passwordConfirm'),
             $this->request->input('name')
         );
+
+        if($form->hasValidationErrors()){
+            foreach($form->getValidationErrors() as $error){
+                $this->request->getSession()->setFlash('error', $error);
+            }
+            return new RedirectResponse('/register');
+        }
+
         $user = $form->save();
 
-        dd($user);
+        $this->request->getSession()->setFlash('success',"Пользователь {$user->getEmail()} успешно зарегестрирован");
+
 
         return $this->render(VIEWS_PATH . '/form/register.php');
     }

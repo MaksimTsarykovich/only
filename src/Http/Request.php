@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Src\Http;
 
+use Src\Session\Session;
+
 class Request
 {
+    private Session $session;
+
     public function __construct(
         private readonly array $getParams,
         private readonly array $postData,
@@ -37,6 +41,16 @@ class Request
     public function input(string $key, mixed $default = null)
     {
         return $this->postData[$key] ?? $default;
+    }
+
+    public function getSession()
+    {
+        return $this->session;
+    }
+
+    public function setSession(Session $session): void
+    {
+        $this->session = $session;
     }
 
 }
