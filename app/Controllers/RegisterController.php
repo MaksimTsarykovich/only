@@ -38,7 +38,7 @@ class RegisterController extends AbstractController
         );
 
         if($form->hasValidationErrors()){
-            foreach($form->getValidationErrors() as $error){
+            foreach($form->getErrors() as $error){
                 $this->request->getSession()->setFlash('error', $error);
             }
             return new RedirectResponse('/register');

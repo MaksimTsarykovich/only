@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.115.4">
-    <title>PHP Framework</title>
+    <title>Test Task</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-fixed/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
@@ -32,7 +32,7 @@
                 <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/posts/create">Профиль</a>
+                        <a class="nav-link" href="/dashboard">Профиль</a>
                     </li>
                 </ul>
                 <div class="d-flex mt-3 mt-lg-0 gap-2">
