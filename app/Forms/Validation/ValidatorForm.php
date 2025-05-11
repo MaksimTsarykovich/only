@@ -4,7 +4,7 @@ namespace App\Forms\Validation;
 
 use App\Services\UserService;
 
-class ValidatorForm
+class ValidatorForm implements ValidatorInterface
 {
     protected array $validationErrors ;
 
@@ -47,8 +47,6 @@ class ValidatorForm
             $this->validationErrors[] = 'Email обязателен для заполнения';
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->validationErrors[] = 'Неверный формат электронной почты';
-        } elseif (!$this->userService->isFieldExist('email', $email)) {
-            $this->validationErrors[] = 'Пользователь с таким email уже существует';
         }
     }
 
@@ -90,7 +88,7 @@ class ValidatorForm
 
     protected function isUniqueEmail(string $email): void
     {
-        if (!$this->userService->isFieldExist('phone', $email)) {
+        if (!$this->userService->isFieldExist('email', $email)) {
             $this->validationErrors[] = 'Пользователь с таким email уже существует';
         }
     }

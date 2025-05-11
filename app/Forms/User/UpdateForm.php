@@ -3,51 +3,39 @@
 namespace App\Forms\User;
 
 use App\Forms\Validation\ValidatorForm;
+use App\Forms\Validation\ValidatorUpdateForm;
 use App\Models\User;
 use App\Services\UserService;
 
 class UpdateForm extends Form
 {
 
-
-    public function getUpdatableFields(User $user)
+    public function getUpdateErrors()
     {
-        $updatableFields = [];
-
-        if ($this->name !== $user->getName()) {
-            $updatableFields [] = $this->name;
-        }
-        if ($this->email !== $user->getEmail()) {
-            $updatableFields [] = $this->email;
-        }
-        if ($this->phone !== $user->getPhone()) {
-            $updatableFields [] = $this->phone;
-        }
-        if (!empty($this->password)) {
-            $updatableFields [] = $this->password;
-        }
-
-        return $updatableFields;
+        return $this->validator
+            ->getErrors();
     }
 
-
-    public function update(User $user): bool
+    public function hasUpdateErrors(): bool
     {
-        $this->getUpdatableFields($user);
-        return $this->userService->update(
-            $userId,
+        return $this->validator->hasValidationUpdateErrors(
             $this->name,
             $this->email,
             $this->phone,
-            $this->password);
-
+            $this->password,
+            $this->passwordConfirmation,
+            $this->userId
+        );
     }
 
-    public function getUpdateErrors()
+    public function update()
     {
-        $this->validator->getUpdateValidationErrors();
-
+        return $this->userService->update(
+            $this->userId,
+            $this->name,
+            $this->email,
+            $this->phone,
+            $this->password,
+        );
     }
-
-
 }

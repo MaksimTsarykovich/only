@@ -4,7 +4,9 @@ namespace App\Controllers;
 
 use App\Services\UserService;
 use Config\App;
+use Config\Captcha;
 use Src\Authentication\SessionAuthentication;
+use Src\Authentication\YandexSmartCaptcha;
 use Src\Controller\AbstractController;
 use Src\Http\RedirectResponse;
 use Src\Http\Response;
@@ -14,10 +16,14 @@ class LoginController extends AbstractController
     private SessionAuthentication $auth;
     private UserService $userService;
 
+    private YandexSmartCaptcha $captcha;
+
+
 
     public function __construct()
     {
         $this->userService = new UserService(App::getDatabase());
+        $this->captcha = new YandexSmartCaptcha(Captcha::YANDEX_SERVER_KEY);
 
     }
 
@@ -29,6 +35,13 @@ class LoginController extends AbstractController
     public function login()
     {
         $this->setSessionAuthentication();
+
+        $captchaToken = $this->request->input('smart-token');
+        if (!$this->captcha->verify($captchaToken)) {
+            $errorMessage = $this->captcha->getLastError() ?? 'Пожалуйста, подтвердите, что вы не робот';
+            $this->request->getSession()->setFlash('error', $errorMessage);
+            return new RedirectResponse('/login');
+        }
 
         $isAuth = $this->auth->authenticate(
             $this->request->input('login'),

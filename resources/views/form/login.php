@@ -55,6 +55,12 @@
                             <button type="submit" class="btn btn-primary">Войти</button>
                         </div>
 
+                        <div class="mb-3">
+                            <div id="captcha-container" class="smart-captcha" data-sitekey="ysc1_aLnsFqR0IVvstUVt9tcakLLHZWcPjXFJgS78yK8Kc699e978"></div>
+                            <input type="hidden" name="smart-token" id="smart-token-input">
+                        </div>
+
+
                         <div class="mt-3 text-center">
                             <p>Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
                         </div>
@@ -66,6 +72,32 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Скрипт для инициализации SmartCaptcha -->
+<script src="https://smartcaptcha.yandexcloud.net/captcha.js" defer></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Ждем загрузки скрипта капчи
+        setTimeout(function() {
+            if (typeof window.smartCaptcha !== 'undefined') {
+                // Инициализируем капчу
+                window.smartCaptcha.render('captcha-container', {
+                    sitekey: '<?= Config\Captcha::YANDEX_SITE_KEY ?>',
+                    callback: function(token) {
+                        // Сохраняем токен в скрытое поле формы
+                        document.getElementById('smart-token-input').value = token;
+                        console.log('Капча решена, токен получен:', token);
+                    },
+                    invisible: false,
+                    language: 'ru'
+                });
+            } else {
+                console.error('SmartCaptcha не загружена');
+            }
+        }, 500);
+    });
+</script>
+
+
 
 </body>
 </html>

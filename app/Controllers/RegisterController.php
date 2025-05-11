@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Forms\User\RegisterForm;
+use App\Forms\Validation\ValidatorForm;
 use App\Services\UserService;
 use Config\App;
 use Src\Authentication\SessionAuthentication;
@@ -36,7 +37,10 @@ class RegisterController extends AbstractController
             $this->request->getSession()
         );
 
-        $form = new RegisterForm($this->userService);
+        $form = new RegisterForm(
+            $this->userService,
+            new ValidatorForm($this->userService)
+        );
         $form->setFields(
             $this->request->input('email'),
             $this->request->input('phone'),

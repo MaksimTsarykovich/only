@@ -3,11 +3,16 @@
 namespace App\Forms\User;
 
 use App\Forms\Validation\ValidatorForm;
+use App\Forms\Validation\ValidatorInterface;
 use App\Services\UserService;
 
 class Form
 {
+    protected ?int $userId;
+
     protected ?string $name;
+
+
 
     protected string $email;
 
@@ -17,17 +22,19 @@ class Form
 
     protected string $passwordConfirmation;
 
-    protected ValidatorForm $validator;
+
+
 
     public function __construct(
-        protected UserService $userService
+        protected UserService $userService,
+        protected ValidatorInterface $validator,
     )
     {
-        $this->validator = new ValidatorForm($this->userService);
+
     }
 
 
-    public function setFields(string $email, string $phone, string $password, string $passwordConfirmation, ?string $name = null): void
+    public function setFields(string $email, string $phone, string $password, string $passwordConfirmation, ?string $name = null, ?int $userId = null): void
     {
         $this->validator->setValidationErrors([]);
 
@@ -36,6 +43,7 @@ class Form
         $this->phone = $phone;
         $this->password = $password;
         $this->passwordConfirmation = $passwordConfirmation;
+        $this->userId = $userId;
     }
 
     public function getErrors(): array
@@ -59,4 +67,18 @@ class Form
             $this->passwordConfirmation);
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
 }

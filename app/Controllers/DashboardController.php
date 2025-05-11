@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Forms\User\UpdateForm;
+use App\Forms\Validation\ValidatorUpdateForm;
 use App\Services\UserService;
 use Config\App;
 use Src\Authentication\SessionAuthentication;
@@ -51,28 +52,28 @@ class DashboardController extends AbstractController
 
     public function update()
     {
-        $form = new UpdateForm($this->userService);
+        $form = new UpdateForm(
+            $this->userService,
+            new ValidatorUpdateForm($this->userService)
+        );
+        $userId  = (int)$this->findUserById()->getId();
         $form->setFields(
             $this->request->input('email'),
             $this->request->input('phone'),
             $this->request->input('password'),
             $this->request->input('passwordConfirm'),
-            $this->request->input('name')
+            $this->request->input('name'),
+            $userId
         );
 
-        $user = $this->findUserById();
-        dump($form);
-        dump($user);
-        dd($form->getUpdatableFields($user));
-        if($form->hasValidationErrors()){
-            foreach($form->getErrors() as $error){
+        if($form->hasUpdateErrors()){
+            foreach($form->getUpdateErrors() as $error){
                 $this->request->getSession()->setFlash('error', $error);
             }
             return new RedirectResponse('/dashboard');
         }
 
-
-        if ($form->update($this->findUserById()->getId())) {
+        if ($form->update()) {
            $this->request->getSession()->setFlash('success',"Данные профиля успешно обновлены");
        }
 
@@ -80,9 +81,9 @@ class DashboardController extends AbstractController
         return $this->render(
         VIEWS_PATH . '/form/update.php',
         [
-            'name' => $user->getName(),
-            'phone' => $user->getPhone(),
-            'email' => $user->getEmail(),
+            'name' => $form->getName(),
+            'phone' => $form->getPhone(),
+            'email' => $form->getEmail(),
         ]
     );
 

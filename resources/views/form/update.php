@@ -60,7 +60,7 @@
                         <div class="mb-4">
                             <label for="passwordConfirm" class="form-label">Повторите пароль</label>
                             <input type="password" class="form-control" id="passwordConfirm"
-                                   name="passwordConfirm" required>
+                                   name="passwordConfirm" >
                         </div>
 
                         <div class="d-grid gap-2">

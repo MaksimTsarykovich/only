@@ -65,12 +65,11 @@ class UserService extends EntityService
         return $stmt->fetchColumn()== 0;
     }
 
-    public function isFieldUniqueExcept(string $fieldName, string $value, int $excludeId): bool
+    public function isFieldUniqueExcept(string $fieldName, string $value, string $excludeId): bool
     {
         $stmt = $this->db
             ->prepare("SELECT COUNT(*) FROM `users` WHERE `{$fieldName}` = :value AND `id` != :excludeId");
-
-        $stmt->execute([
+         $stmt->execute([
             ":value" => $value,
             ":excludeId" => $excludeId
         ]);
