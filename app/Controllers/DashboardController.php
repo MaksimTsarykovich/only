@@ -37,13 +37,10 @@ class DashboardController extends AbstractController
             return new RedirectResponse('/login');
         }
 
-        $user = $this->userService->findByField(
-            'id',
-            $this->request->getSession()->get(Session::AUTH_KEY)
-        );
+        $user = $this->findUserById();
 
         return $this->render(
-            VIEWS_PATH . '/dashboard.php',
+            VIEWS_PATH . '/form/update.php',
             [
                 'name' => $user->getName(),
                 'phone' => $user->getPhone(),
@@ -63,15 +60,40 @@ class DashboardController extends AbstractController
             $this->request->input('name')
         );
 
+        $user = $this->findUserById();
+        dump($form);
+        dump($user);
+        dd($form->getUpdatableFields($user));
+        if($form->hasValidationErrors()){
+            foreach($form->getErrors() as $error){
+                $this->request->getSession()->setFlash('error', $error);
+            }
+            return new RedirectResponse('/dashboard');
+        }
 
 
-    return $this->render(
-        VIEWS_PATH . '/dashboard.php',
+        if ($form->update($this->findUserById()->getId())) {
+           $this->request->getSession()->setFlash('success',"Данные профиля успешно обновлены");
+       }
+
+
+        return $this->render(
+        VIEWS_PATH . '/form/update.php',
         [
             'name' => $user->getName(),
             'phone' => $user->getPhone(),
             'email' => $user->getEmail(),
         ]
     );
+
     }
+
+    private function findUserById()
+    {
+        return $this->userService->findByField(
+            'id',
+            $this->request->getSession()->get(Session::AUTH_KEY)
+        );
+    }
+
 }

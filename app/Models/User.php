@@ -29,6 +29,7 @@ class User extends AbstractModel
         return new static($id, $name, $email, $phone, $password_hash);
     }
 
+
     public function getId(): ?int
     {
         return $this->id;

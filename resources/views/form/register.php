@@ -46,7 +46,7 @@
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Электронная почта</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" >
                         </div>
 
                         <div class="mb-3">

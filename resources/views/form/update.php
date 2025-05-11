@@ -31,7 +31,7 @@
                     <?php endif; ?>
 
 
-                    <form action="/register" method="post">
+                    <form action="/update" method="post">
                         <div class="mb-3">
                             <label for="name" class="form-label">Имя</label>
                             <input type="text" class="form-control" id="name" name="name"
@@ -57,7 +57,11 @@
                                 Пароль должен содержать не менее 8 символов
                             </div>
                         </div>
-
+                        <div class="mb-4">
+                            <label for="passwordConfirm" class="form-label">Повторите пароль</label>
+                            <input type="password" class="form-control" id="passwordConfirm"
+                                   name="passwordConfirm" required>
+                        </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary">Изменить</button>

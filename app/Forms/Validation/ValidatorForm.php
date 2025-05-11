@@ -6,10 +6,10 @@ use App\Services\UserService;
 
 class ValidatorForm
 {
-    private array $validationErrors ;
+    protected array $validationErrors ;
 
     public function __construct(
-        private UserService $userService
+        protected UserService $userService
     )
     {
     }
@@ -18,26 +18,30 @@ class ValidatorForm
         string $email,
         string $phone,
         string $password,
+        string $passwordConfirmation,
         ?string $name= null,
-        ?string $passwordConfirmation = null
     ): array
     {
+        $this->validationErrors = [];
+
         $this->isValidName($name);
         $this->isValidEmail($email);
+        $this->isUniqueEmail($email);
         $this->isValidPhone($phone);
+        $this->isUniquePhone($phone);
         $this->isValidPassword($password, $passwordConfirmation);
 
         return $this->validationErrors;
     }
 
-    private function isValidName($name): void
+    protected function isValidName($name): void
     {
         if (!empty($name) && mb_strlen($name) > 50) {
             $this->validationErrors[] = 'Максимальная длина имени 50 символов';
         }
     }
 
-    private function isValidEmail($email): void
+    protected function isValidEmail(string $email): void
     {
         if (empty($email)) {
             $this->validationErrors[] = 'Email обязателен для заполнения';
@@ -48,7 +52,9 @@ class ValidatorForm
         }
     }
 
-    private function isValidPhone($phone): void
+
+
+    protected function isValidPhone(string $phone): void
     {
         $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
 
@@ -56,13 +62,10 @@ class ValidatorForm
             $this->validationErrors[] = 'Номер телефона обязателен для заполнения';
         } elseif (!strlen($cleanPhone) >= 10 && strlen($cleanPhone) <= 15) {
             $this->validationErrors[] = 'Неверный формат номера телефона';
-        } elseif (!$this->userService->isFieldExist('phone', $phone)) {
-            $this->validationErrors[] = 'Пользователь с таким номером телефона уже существует';
         }
-
     }
 
-    private function isValidPassword($password, $passwordConfirmation): void
+    protected function isValidPassword(string $password, string $passwordConfirmation): void
     {
         if (empty($password)) {
             $this->validationErrors[] = 'Пароль обязателен для заполнения';
@@ -78,13 +81,37 @@ class ValidatorForm
 
     }
 
-    public function hasValidationErrors(): bool
+    protected function isUniquePhone(string $phone): void
     {
-        return !empty($this->validationErrors);
+        if (!$this->userService->isFieldExist('phone', $phone)) {
+            $this->validationErrors[] = 'Пользователь с таким номером телефона уже существует';
+        }
+    }
+
+    protected function isUniqueEmail(string $email): void
+    {
+        if (!$this->userService->isFieldExist('phone', $email)) {
+            $this->validationErrors[] = 'Пользователь с таким email уже существует';
+        }
+    }
+
+    public function hasValidationErrors(string $name,
+                string $email,
+                string $phone,
+                string $password,
+                string $passwordConfirmation): bool
+    {
+        return !empty($this->getValidationErrors(
+            $email,
+            $phone,
+            $password,
+            $passwordConfirmation,
+            $name));
     }
 
     public function setValidationErrors(array $validationErrors): void
     {
         $this->validationErrors = $validationErrors;
     }
+
 }

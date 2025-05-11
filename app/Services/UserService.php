@@ -29,6 +29,32 @@ class UserService extends EntityService
         return $userId;
     }
 
+    public function update(int $userId, string $name, string $email, string $phone, ?string $password = null )
+    {
+
+        $sql = "UPDATE `users` SET 
+            `name` = :name,
+            `email` = :email,
+            `phone` = :phone";
+
+        $params = [
+            ':name' => $name,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':id' => $userId
+        ];
+
+        if ($password !== null) {
+            $sql .= ", `password` = :password";
+            $params[':password'] = password_hash($password, PASSWORD_DEFAULT);
+        }
+
+        $sql .= " WHERE `id` = :id";
+
+        $stmt = $this->db->prepare($sql);
+        return $stmt->execute($params);
+    }
+
     public function isFieldExist(string $fieldName, string $value) : bool
     {
         $stmt = $this->db
@@ -39,6 +65,18 @@ class UserService extends EntityService
         return $stmt->fetchColumn()== 0;
     }
 
+    public function isFieldUniqueExcept(string $fieldName, string $value, int $excludeId): bool
+    {
+        $stmt = $this->db
+            ->prepare("SELECT COUNT(*) FROM `users` WHERE `{$fieldName}` = :value AND `id` != :excludeId");
+
+        $stmt->execute([
+            ":value" => $value,
+            ":excludeId" => $excludeId
+        ]);
+
+        return $stmt->fetchColumn() == 0;
+    }
 
     public function findByField(string $field, mixed $value): ?User
     {
@@ -62,9 +100,6 @@ class UserService extends EntityService
         );
     }
 
-    public function updateUser(int $userId, )
-    {
-        
-    }
+
 
 }

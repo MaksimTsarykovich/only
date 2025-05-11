@@ -7,12 +7,15 @@ namespace App\Controllers;
 use App\Forms\User\RegisterForm;
 use App\Services\UserService;
 use Config\App;
+use Src\Authentication\SessionAuthentication;
 use Src\Controller\AbstractController;
 use Src\Http\RedirectResponse;
 use Src\Http\Response;
 
 class RegisterController extends AbstractController
 {
+
+    private SessionAuthentication $auth;
 
     private UserService $userService;
 
@@ -28,6 +31,11 @@ class RegisterController extends AbstractController
 
     public function register(): Response
     {
+        $this->auth = new SessionAuthentication(
+            $this->userService,
+            $this->request->getSession()
+        );
+
         $form = new RegisterForm($this->userService);
         $form->setFields(
             $this->request->input('email'),
@@ -48,7 +56,8 @@ class RegisterController extends AbstractController
 
         $this->request->getSession()->setFlash('success',"Пользователь {$user->getEmail()} успешно зарегестрирован");
 
+        $this->auth->login($user);
 
-        return $this->render(VIEWS_PATH . '/form/register.php');
+        return new RedirectResponse('/dashboard');
     }
 }

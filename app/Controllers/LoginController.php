@@ -18,6 +18,7 @@ class LoginController extends AbstractController
     public function __construct()
     {
         $this->userService = new UserService(App::getDatabase());
+
     }
 
     public function form(): Response
@@ -27,11 +28,7 @@ class LoginController extends AbstractController
 
     public function login()
     {
-
-        $this->auth = new SessionAuthentication(
-            $this->userService,
-            $this->request->getSession()
-        );
+        $this->setSessionAuthentication();
 
         $isAuth = $this->auth->authenticate(
             $this->request->input('login'),
@@ -52,9 +49,19 @@ class LoginController extends AbstractController
 
     public function logout(): RedirectResponse
     {
+        $this->setSessionAuthentication();
+
         $this->auth->logout();
 
         return new RedirectResponse('/login');
+    }
+
+    private function setSessionAuthentication()
+    {
+        $this->auth = new SessionAuthentication(
+            $this->userService,
+            $this->request->getSession()
+        );
     }
 
 }

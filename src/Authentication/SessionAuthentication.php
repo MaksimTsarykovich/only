@@ -51,10 +51,6 @@ class SessionAuthentication
         $this->session->remove(Session::AUTH_KEY);
     }
 
-    public function getUser(): AuthUserInterface
-    {
-        return $this->user;
-    }
 
     public function check(): bool
     {

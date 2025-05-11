@@ -10,12 +10,13 @@ use Src\Routing\Route;
 
 
 return [
-    Route::get('/', [HomeController::class, 'index']),
-    Route::get('/db', [HomeController::class, 'db']),
+    Route::get('/', [LoginController::class, 'form']),
     Route::get('/register', [RegisterController::class, 'form']),
     Route::post('/register', [RegisterController::class, 'register']),
     Route::get('/login', [LoginController::class, 'form']),
     Route::post('/login', [LoginController::class, 'login']),
+    Route::post('/logout', [LoginController::class, 'logout']),
     Route::get('/dashboard', [DashboardController::class, 'index']),
+    Route::post('/update', [DashboardController::class, 'update']),
 
 ];

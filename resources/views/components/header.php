@@ -1,3 +1,4 @@
+<?php use Src\Session\Session; ?>
 <!doctype html>
 <html lang="ru" data-bs-theme="auto">
 <head>
@@ -10,7 +11,8 @@
     <title>Test Task</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-fixed/">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"  crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          crossorigin="anonymous">
     <meta name="theme-color" content="#712cf9">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -30,17 +32,23 @@
             </div>
             <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="/dashboard">Профиль</a>
-                    </li>
+                    <?php if (!empty($_SESSION[Session::AUTH_KEY])): ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">Профиль</a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
                 <div class="d-flex mt-3 mt-lg-0 gap-2">
-                    <form action="/logout" method="post">
-                        <button class="btn btn-outline-danger" type="submit">Выход</button>
-                    </form>
-                    <a class="btn btn-outline-warning" href="/login" type="submit">Вход</a>
-                    <a class="btn btn-outline-warning" href="/register" type="submit">Регистриция</a>
+                    <?php if (!empty($_SESSION[Session::AUTH_KEY])): ?>
+                        <form action="/logout" method="post">
+                            <button class="btn btn-outline-danger" type="submit">Выход</button>
+                        </form>
+                    <?php endif; ?>
+                    <?php if (empty($_SESSION[Session::AUTH_KEY])): ?>
+                        <a class="btn btn-outline-warning" href="/login" type="submit">Вход</a>
+                        <a class="btn btn-outline-warning" href="/register" type="submit">Регистриция</a>
+                    <?php endif; ?>
+
                 </div>
             </div>
         </div>

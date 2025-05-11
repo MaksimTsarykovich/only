@@ -27,7 +27,7 @@ class Form
     }
 
 
-    public function setFields(string $email, string $phone, string $password, ?string $passwordConfirmation = null, ?string $name = null): void
+    public function setFields(string $email, string $phone, string $password, string $passwordConfirmation, ?string $name = null): void
     {
         $this->validator->setValidationErrors([]);
 
@@ -36,24 +36,27 @@ class Form
         $this->phone = $phone;
         $this->password = $password;
         $this->passwordConfirmation = $passwordConfirmation;
-
-        $this->getErrors();
     }
 
     public function getErrors(): array
     {
         return $this->validator
             ->getValidationErrors(
-                $this->name,
                 $this->email,
                 $this->phone,
                 $this->password,
-                $this->passwordConfirmation
+                $this->passwordConfirmation,
+                $this->name
             );
     }
 
     public function hasValidationErrors(): bool
     {
-        return $this->validator->hasValidationErrors();
+        return $this->validator->hasValidationErrors($this->name,
+            $this->email,
+            $this->phone,
+            $this->password,
+            $this->passwordConfirmation);
     }
+
 }
