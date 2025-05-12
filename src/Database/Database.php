@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Src\Database;
 
+use Config\Config;
 use PDO;
+use PDOException;
 
 class Database
 {
     private PDO $pdo;
 
 
-    public function __construct(array $config)
+    public function __construct()
 
     {
         $defaultOptions = [
@@ -21,10 +23,10 @@ class Database
 
         try {
             $this->pdo = new PDO(
-                $this->generateDsn($config),
-                $config['username'],
-                $config['password'],
-                $config['options'] ?? $defaultOptions
+                $this->generateDsn(),
+                Config::DB_USERNAME,
+                Config::DB_PASSWORD,
+                 $defaultOptions
             );
         } catch (PDOException $e) {
             throw new PDOException($e->getMessage(),
@@ -38,10 +40,10 @@ class Database
     }
 
 
-    private function generateDsn(array $config): string
+    private function generateDsn(): string
     {
         return sprintf(
             '%s:host=%s;dbname=%s',
-            $config['driver'], $config['host'], $config['database']);
+            Config::DB_DRIVER, Config::DB_HOST, Config::DB_DATABASE);
     }
 }

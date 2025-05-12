@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms\User;
 
-use App\Forms\Validation\ValidatorForm;
 use App\Forms\Validation\ValidatorInterface;
 use App\Services\UserService;
 

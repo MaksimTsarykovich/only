@@ -1,11 +1,8 @@
 <?php
 
-namespace App\Forms\User;
+declare(strict_types=1);
 
-use App\Forms\Validation\ValidatorForm;
-use App\Forms\Validation\ValidatorUpdateForm;
-use App\Models\User;
-use App\Services\UserService;
+namespace App\Forms\User;
 
 class UpdateForm extends Form
 {

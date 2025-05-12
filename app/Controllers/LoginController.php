@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Services\UserService;
 use Config\App;
-use Config\Captcha;
+use Config\Config;
 use Src\Authentication\SessionAuthentication;
 use Src\Authentication\YandexSmartCaptcha;
 use Src\Controller\AbstractController;
@@ -23,7 +25,7 @@ class LoginController extends AbstractController
     public function __construct()
     {
         $this->userService = new UserService(App::getDatabase());
-        $this->captcha = new YandexSmartCaptcha(Captcha::YANDEX_SERVER_KEY);
+        $this->captcha = new YandexSmartCaptcha(Config::YANDEX_SERVER_KEY);
 
     }
 

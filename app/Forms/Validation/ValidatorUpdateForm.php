@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms\Validation;
 
-use App\Forms\Validation\ValidatorForm;
 
 class ValidatorUpdateForm extends ValidatorForm implements ValidatorInterface
 

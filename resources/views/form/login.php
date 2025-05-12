@@ -1,5 +1,7 @@
-<?php include VIEWS_PATH . '/components/header.php'; ?>
-<body>
+<?php use Config\Config;
+
+include VIEWS_PATH . '/components/header.php'; ?>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-7 col-lg-6 col-xl-5">
@@ -55,7 +57,7 @@
                             <button type="submit" class="btn btn-primary">Войти</button>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="m-3">
                             <div id="captcha-container" class="smart-captcha" data-sitekey="ysc1_aLnsFqR0IVvstUVt9tcakLLHZWcPjXFJgS78yK8Kc699e978"></div>
                             <input type="hidden" name="smart-token" id="smart-token-input">
                         </div>
@@ -71,7 +73,7 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
 <!-- Скрипт для инициализации SmartCaptcha -->
 <script src="https://smartcaptcha.yandexcloud.net/captcha.js" defer></script>
 <script>
@@ -81,7 +83,7 @@
             if (typeof window.smartCaptcha !== 'undefined') {
                 // Инициализируем капчу
                 window.smartCaptcha.render('captcha-container', {
-                    sitekey: '<?= Config\Captcha::YANDEX_SITE_KEY ?>',
+                    sitekey: '<?= Config::YANDEX_SITE_KEY ?>',
                     callback: function(token) {
                         // Сохраняем токен в скрытое поле формы
                         document.getElementById('smart-token-input').value = token;
@@ -97,7 +99,4 @@
     });
 </script>
 
-
-
-</body>
-</html>
+<?php include VIEWS_PATH . '/components/footer.php'; ?>

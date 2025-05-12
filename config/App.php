@@ -26,7 +26,7 @@ class App
         private array $config,
     )
     {
-        $this->db = new Database($this->config['database']  ?? []);
+        $this->db = new Database();
 
         $this->request = Request::createFromGlobals();
 

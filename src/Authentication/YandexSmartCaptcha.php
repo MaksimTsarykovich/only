@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Src\Authentication;
 
 class YandexSmartCaptcha
@@ -7,26 +9,17 @@ class YandexSmartCaptcha
     private string $serverKey;
     private ?string $lastError = null;
 
-    /**
-     * @param string $serverKey Секретный ключ SmartCaptcha
-     */
     public function __construct(string $serverKey)
     {
         $this->serverKey = $serverKey;
     }
 
-    /**
-     * Проверяет токен SmartCaptcha
-     *
-     * @param string|null $token Токен капчи
-     * @return bool Результат проверки
-     */
     public function verify(?string $token): bool
     {
-        // Сбрасываем предыдущую ошибку
+
         $this->lastError = null;
 
-        // Если токен пустой
+
         if (empty($token)) {
             $this->lastError = 'Токен капчи отсутствует';
             return false;
@@ -62,11 +55,6 @@ class YandexSmartCaptcha
         return true;
     }
 
-    /**
-     * Возвращает последнюю ошибку
-     *
-     * @return string|null Текст ошибки или null, если ошибок не было
-     */
     public function getLastError(): ?string
     {
         return $this->lastError;

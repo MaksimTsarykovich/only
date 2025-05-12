@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Http;
 
-use Src\Http\Exceptions\HttpException;
+use Src\Http\Exceptions\RouteNotFoundException;
 use Src\Routing\Router;
 
 class Kernel
@@ -15,33 +15,35 @@ class Kernel
     {
     }
 
-    public function handle(Request $request)
+    public function handle(Request $request): Response
     {
-//        try {
+        try {
             [$routeHandler, $vars] = $this->router->dispatch($request);
-            [$class, $method] = $routeHandler;
 
+            [$class, $method] = $routeHandler;
             $controller = new $class;
 
             $controller->setRequest($request);
 
             $response = $controller->$method($vars);
 
-        /*} catch (\Exception $e) {
+        } catch (\Exception $e) {
            $response = $this->createExceptionResponse($e);
-        }*/
+        }
 
         return $response;
     }
 
-    public function terminate(Request $request,Response $response):void
+    public function terminate(Request $request):void
     {
         $request->getSession()?->clearFlash();
     }
 
-    private function createExceptionResponse(\Throwable $e)
+    private function createExceptionResponse(\Throwable $e): Response
     {
-        if ($e instanceof HttpException) {
+
+        if ($e instanceof RouteNotFoundException) {
+            $e->setStatusCode(404);
             return new Response($e->getMessage(), $e->getStatusCode());
         }
 

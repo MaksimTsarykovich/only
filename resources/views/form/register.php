@@ -1,5 +1,5 @@
 <?php include VIEWS_PATH . '/components/header.php'; ?>
-<body>
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-7 col-lg-6 col-xl-5">
@@ -77,8 +77,4 @@
     </div>
 </div>
 
-<!-- Подключение Bootstrap JS и валидация формы -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-</html>
+<?php include VIEWS_PATH . '/components/footer.php'; ?>

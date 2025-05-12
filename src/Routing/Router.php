@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Routing;
 
+use Src\Http\Exceptions\RouteNotFoundException;
 use Src\Http\Request;
 
 class Router
@@ -34,19 +35,11 @@ class Router
             }
 
             $handler = [$controller, $routeMethod];
+
             return $handler;
         }
 
-        return $this->handleNotFound();
-    }
-
-    private function executeHandler(array $handler, array $params = []): mixed
-    {
-        [$controller, $method] = $handler;
-
-        $controllerInstance = new $controller();
-
-        return call_user_func_array([$controllerInstance, $method], $params);
+        throw new RouteNotFoundException();
     }
 
     private function handleNotFound(): mixed
