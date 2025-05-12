@@ -42,9 +42,17 @@
     docker-compose up --build -d
     ```
 3. Установите зависимости через Composer:
+
+   Войдите в контейнер PHP
     ```bash
-    docker-compose exec app composer install
+     docker-compose exec -it php bash
     ```
+   Обновите автозагрузчик Composer
+    ```bash
+    composer update
+    composer dump-autoload
+    ```
+   
    В данном тестовом задании через Composer работает только автозагрузка классов.
    
    Никакие библиотеки с готовыми решениями не используются. 
@@ -52,7 +60,7 @@
 5. Приложение будет доступно по адресу: http://localhost:8080
 
     PhpMyAdmin: http://localhost:8081
-
+   
 ### Структура проекта
 ```
 │   .gitignore (Список файлов и директорий, игнорируемых Git)
