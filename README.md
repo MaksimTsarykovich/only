@@ -23,6 +23,7 @@
 - Yandex SmartCaptcha
 - HTML/CSS/JavaScript
 
+
 ## Установка и запуск
 
 ### Требования
@@ -49,4 +50,103 @@
    Никакие библиотеки с готовыми решениями не используются. 
 
 5. Приложение будет доступно по адресу: http://localhost:8080
+
     PhpMyAdmin: http://localhost:8081
+
+### Структура проекта
+
+│   .gitignore (Список файлов и директорий, игнорируемых Git)
+│   composer.json (Конфигурация Composer, описывает зависимости проекта)
+│   composer.lock (Фиксирует точные версии установленных зависимостей)
+│   docker-compose.yml (Конфигурация Docker Compose для запуска проекта в контейнерах)
+│   README.md (Документация проекта)
+│
+├───app (Пользовательский код приложения)
+│   ├───Controllers (Контроллеры для обработки запросов)
+│   │       DashboardController.php
+│   │       LoginController.php
+│   │       RegisterController.php
+│   │
+│   ├───Forms (Классы для работы с формами и их валидацией)
+│   │   ├───User
+│   │   │       Form.php
+│   │   │       RegisterForm.php
+│   │   │       UpdateForm.php
+│   │   │
+│   │   └───Validation (Интерфейсы и классы для валидации форм)
+│   │           ValidatorForm.php
+│   │           ValidatorInterface.php
+│   │           ValidatorUpdateForm.php
+│   │
+│   ├───Models (Модели данных)
+│   │       User.php
+│   │
+│   └───Services (Сервисные классы для работы с данными)
+│           UserService.php
+│
+├───config (Конфигурационные файлы)
+│       App.php 
+│       Config.php 
+│
+├───docker (Файлы для настройки Docker-окружения)
+│   ├───mysql
+│   │       Dockerfile
+│   │       init.sql
+│   │
+│   ├───nginx
+│   │       nginx.conf
+│   │
+│   └───php
+│           Dockerfile
+│
+├───public (Публично доступные файлы)
+│       index.php
+│
+├───resources (Ресурсы приложения)
+│   └───views (Виды)
+│       ├───components (Повторно используемые компоненты)
+│       │       footer.php
+│       │       header.php
+│       │
+│       └───form (Виды форм)
+│               login.php
+│               register.php
+│               update.php
+│
+├───routes (Маршруты)
+│       web.php
+│
+├───src (Ядро приложения)
+│   ├───Authentication (Классы для аутентификации и работы с Yandex SmartCaptcha)
+│   │       SessionAuthentication.php
+│   │       YandexSmartCaptcha.php
+│   │
+│   ├───Controller (Базовый класс для контроллеров)
+│   │       AbstractController.php
+│   │
+│   ├───Database (Классы для работы с базой данных)
+│   │       Database.php
+│   │       EntityService.php
+│   
+│   ├───Http ( Классы для обработки HTTP-запросов и ответов)
+│   │   │   Kernel.php
+│   │   │   RedirectResponse.php
+│   │   │   Request.php
+│   │   │   Response.php
+│   │   │
+│   │   └───Exceptions (Исключения для HTTP-обработки)
+│   │           HttpException.php
+│   │           RouteNotFoundException.php
+│   │
+│   ├───Model (Базовый класс для моделей)
+│   │       AbstractModel.php
+│   │
+│   ├───Routing (Классы для маршрутизации запросов)
+│   │       Route.php
+│   │       Router.php
+│   │
+│   └───Session (Управление сессиями)
+│           Session.php
+
+
+
