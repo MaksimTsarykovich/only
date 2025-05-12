@@ -59,7 +59,7 @@ class LoginController extends AbstractController
 
         $this->request->getSession()->setFlash('success', 'Вход выполнен успешно');
 
-        return new RedirectResponse('/dashboard');
+        return new RedirectResponse('/profile');
     }
 
     public function logout(): RedirectResponse

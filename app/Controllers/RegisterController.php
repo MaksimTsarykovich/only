@@ -62,6 +62,6 @@ class RegisterController extends AbstractController
 
         $this->auth->login($user);
 
-        return new RedirectResponse('/dashboard');
+        return new RedirectResponse('/profile');
     }
 }

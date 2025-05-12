@@ -34,7 +34,7 @@
                 <ul class="navbar-nav justify-content-start flex-grow-1 pe-3">
                     <?php if (!empty($_SESSION[Session::AUTH_KEY])): ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="/dashboard">Профиль</a>
+                            <a class="nav-link" href="/profile">Профиль</a>
                         </li>
                     <?php endif; ?>
                 </ul>

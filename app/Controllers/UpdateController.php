@@ -13,7 +13,7 @@ use Src\Controller\AbstractController;
 use Src\Http\RedirectResponse;
 use Src\Session\Session;
 
-class DashboardController extends AbstractController
+class UpdateController extends AbstractController
 {
 
     private SessionAuthentication $auth;
@@ -70,7 +70,7 @@ class DashboardController extends AbstractController
             foreach($form->getUpdateErrors() as $error){
                 $this->request->getSession()->setFlash('error', $error);
             }
-            return new RedirectResponse('/dashboard');
+            return new RedirectResponse('/profile');
         }
 
         if ($form->update()) {
