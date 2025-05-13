@@ -37,11 +37,15 @@
    ```bash
    git clone https://github.com/MaksimTsarykovich/only.git
    ```
-2. Запустите контейнеры Docker:
+2. Перейдите в директорию проекта:
+   ```bash
+   cd only/
+   ```
+3. Запустите контейнеры Docker:
     ```bash
     docker-compose up --build -d
     ```
-3. Установите зависимости через Composer:
+4. Установите зависимости через Composer:
 
    Войдите в контейнер PHP
     ```bash
